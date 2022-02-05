@@ -20,13 +20,13 @@ def index():
     print(todo_list)
     return render_template('base.html', todo_list=todo_list)
 
-@app.route("/add_me/<string:n>")
+@app.route("/add_me=<string:n>", methods=["POST"])
 def add_me(n):
     title=n
     new_todo=Todo(title=title, complete = False)
     db.session.add(new_todo)
     db.session.commit()
-    return redirect(url_for("index"))
+    
 
 @app.route("/add", methods = ["POST"])
 def add():
