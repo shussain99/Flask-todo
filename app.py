@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from pickle import FALSE, TRUE
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
@@ -18,6 +19,14 @@ def index():
     todo_list= Todo.query.all()
     print(todo_list)
     return render_template('base.html', todo_list=todo_list)
+
+@app.route("/add_me/<string:n>")
+def add_me(n):
+    title=n
+    new_todo=Todo(title=title, complete = False)
+    db.session.add(new_todo)
+    db.session.commit()
+    return redirect(url_for("index"))
 
 @app.route("/add", methods = ["POST"])
 def add():
@@ -41,6 +50,14 @@ def update(todo_id):
     #update status
     todo = Todo.query.filter_by(id=todo_id).first()
     todo.complete = not todo.complete
+    db.session.commit()
+    return redirect(url_for("index"))
+
+@app.route("/renamed/<int:todo_id>/<string:replace_list>", methods=['GET'])
+def renamed(todo_id, replace_list):
+    #rename the item
+    todo = Todo.query.filter_by(id=todo_id).first()
+    todo.title= replace_list
     db.session.commit()
     return redirect(url_for("index"))
 
