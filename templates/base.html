@@ -10,11 +10,12 @@
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 </head>
 <body>
-    <h1 class = "ui large header">ToDo List</h1>
-    <form action="/add", method="POST">
+    <div style="margin-top: 50px" class="ui container">
+    <h1 class = "ui center aligned header">ToDo APP</h1>
+
+    <form class="ui form" action="/add", method="POST">
         <div class="ui action input">
-            <br>
-            <label for="title" class="ui blue labels">Todo Title</label>
+            <label for="title"></label>
             <br>
             <input type="text" name="title" placeholder="Enter Todo...">
             <br>
@@ -23,17 +24,17 @@
     </form>
 
     {% for todo in todo_list %}
-
     <div class="ui segment">
         <p class ="ui medium header"> {{ todo.id }} | {{ todo.title }} </p>
         {% if todo.complete == False %}
-            <span class = "ui label">Not Completed</span>
+            <span class = "ui grey label">Not Completed</span>
         {% else %}
-            <span class = "ui label">Completed</span>
+            <span class = "ui green label">Completed</span>
         {% endif %}
         <a class="positive ui button" href="/update/{{ todo.id }}">Update</a>
         <a class="negative ui button" href="/delete/{{ todo.id }}">Delete</a>
     </div>
     {% endfor %}
+    </div>
 </body>
 </html>
